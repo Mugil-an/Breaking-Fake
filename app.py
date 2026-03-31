@@ -338,7 +338,10 @@ with col_main:
     uploaded_file = st.file_uploader("Drop evidence file for deep forensic scan", type=["jpg", "jpeg", "png", "webp"])
 
 if uploaded_file is not None and model is not None:
+    # 📸 Downsize image immediately to save RAM (Optimized for 1GB Cloud Limit)
     img = Image.open(uploaded_file).convert('RGB')
+    if img.size[0] > 1024 or img.size[1] > 1024:
+        img.thumbnail((1024, 1024)) 
     
     st.markdown("---")
     st.markdown("### 📊 Forensic Intelligence Operations")
@@ -363,6 +366,8 @@ if uploaded_file is not None and model is not None:
         # 4. Result Fusion (The Master Equation)
         final_probability = (vit_score * 0.6) + (fft_score * 0.3) + (meta_score * 0.1)
         
+        del img_tensor
+        torch.cuda.empty_cache() if torch.cuda.is_available() else None
     # --- RENDER DASHBOARD ---
     
     # Top Row: Gauge & Verdict Card
