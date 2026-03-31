@@ -46,9 +46,14 @@ st.markdown("""
         border-right: 1px solid #b30000 !important;
     }
     
-    /* Sleek container spacing */
+    /* Sidebar Image Inversion (Make black icon white) */
+    [data-testid="stSidebar"] [data-testid="stImage"] img {
+        filter: invert(1) brightness(2);
+    }
+    
+    /* Sleek container spacing - Increase padding-top to avoid app-bar overlap */
     .block-container {
-        padding-top: 2rem !important;
+        padding-top: 5rem !important;
         max-width: 1200px;
     }
     
