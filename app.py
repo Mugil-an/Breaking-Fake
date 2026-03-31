@@ -1,3 +1,10 @@
+import os
+import sys
+# [HOTFIX] Streamlit Cloud Debian 11/12 has broken apt libraries (libgthread/libffi7).
+# 'grad-cam' natively imports 'opencv-python' (GUI version) which crashes the cloud server.
+# We blast it from the cache right at boot to force the system to use 'opencv-python-headless'.
+os.system("pip uninstall -y opencv-python opencv-contrib-python")
+
 import streamlit as st
 import torch
 import timm
