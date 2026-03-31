@@ -118,11 +118,11 @@ GDRIVE_FILE_ID = "14lccsmptKBE2oETX5u_AFjHeDFAIf9uz"
 # -------------------------------------------------------------------
 # 1. Initialization (Caching the Model)
 # -------------------------------------------------------------------
-@st.cache_resource
+@st.cache_resource(show_spinner="Booting Tri-Factor Neural Architecture...")
 def load_forensic_model():
     """Downloads model if missing, then loads ViT weights."""
     if not os.path.exists(MODEL_PATH):
-        st.warning(f"Model not found locally. Downloading from Google Drive (This may take a minute...)")
+        print(f"Model not found locally. Downloading from Google Drive...")
         try:
             url = f'https://drive.google.com/uc?id={GDRIVE_FILE_ID}'
             gdown.download(url, MODEL_PATH, quiet=False)
