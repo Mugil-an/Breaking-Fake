@@ -52,10 +52,5 @@ To push this exact branch to **[Streamlit Community Cloud](https://streamlit.io/
 2. Visit Streamlit, link your GitHub, and select `app.py` as the entrypoint. 
 3. *That's it!* The `gdown` dependency in `requirements.txt` will automatically pull the model into Streamlit's virtual machine.
 
-## 💡 The Data Workflow (2-Person Split)
-Designed collaboratively by splitting the stack into:
-- **Member A (Brain):** ViT Model Training, Grad-CAM, Heatmaps.
-- **Member B (Architecture):** FFT Matrices, Streamlit Web Framework, Metadata Scripts, and UX Result Fusion.
-
 <hr>
 <p align="center"><i>Building trust in the era of Generative AI.</i></p>
