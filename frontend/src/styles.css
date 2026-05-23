@@ -1,0 +1,15 @@
+body { background: #f7f7f8; color: #222 }
+h1 { font-size: 20px }
+section { background: white; padding: 12px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+button { margin-left: 8px }
+pre { background: #111; color: #eee; padding: 10px; border-radius: 6px }
+
+.thumbnail { display:block; margin-top:8px; max-width:240px; border:1px solid #ddd; border-radius:6px }
+.thumb-small { width:64px; height:64px; object-fit:cover; margin-right:10px; border-radius:6px }
+.progress { background:#eee; border-radius:6px; overflow:hidden; margin-top:8px }
+.progress-bar { background:#2b8aef; color:white; padding:6px 8px; font-size:12px }
+.result-card { display:flex; align-items:center; gap:12px; background:#fff; padding:10px; border-radius:6px; margin-top:8px; box-shadow:0 1px 2px rgba(0,0,0,0.04) }
+.results { margin-top:10px }
+.confidence { background:#222; color:#fff; padding:2px 6px; border-radius:4px; font-size:12px; margin-left:8px }
+.error { color: #a33; margin-top:8px }
+.card { padding:12px; border-radius:6px; background:white }
