@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services: {}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Install frontend dependencies and build
+      working-directory: frontend
+      run: |
+        npm ci
+        npm run build
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install Python test deps
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest requests fastapi[all] pillow
+
+    - name: Run tests
+      run: |
+        pytest -q
