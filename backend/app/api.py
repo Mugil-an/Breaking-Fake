@@ -6,11 +6,11 @@ import json
 import urllib.error
 import urllib.request
 
-import backend.app.auth as auth
 import logging
 
 from shared.config import settings
-from logging_config import setup_logging
+from . import auth
+from .logging_config import setup_logging
 
 # Setup logging
 setup_logging()

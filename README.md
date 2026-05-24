@@ -31,62 +31,61 @@ Built to handle the **"WhatsApp Problem"** (metadata stripping on social media).
 ## 📁 Project Structure (Production-Ready)
 
 ```
-backend/                    # Inference API & Web Server
+backend/                    # FastAPI proxy to the model service
 ├── app/
-│   ├── main.py            # Streamlit UI (moved from root app.py)
+│   ├── api.py             # Backend API
+│   ├── auth.py            # API key checks
+│   ├── logging_config.py  # Logging setup
 │   └── __init__.py
-├── requirements.txt       # Web server dependencies
+├── Dockerfile             # Backend production image
+├── requirements.txt       # Backend dependencies
 └── __init__.py
 
-model/                      # ML Training & Artifacts
+model/                      # Inference service, training, and artifacts
 ├── src/
+│   ├── inference.py       # Model loading and prediction logic
+│   ├── service.py         # Dedicated model FastAPI service
 │   ├── train.py           # Training loop
 │   ├── data.py            # Dataset class
-│   ├── prepare_data.py    # Data setup helper
-│   └── README.md          # Training guide
+│   └── __init__.py
 ├── artifacts/             # Model weights (.pth files)
-├── requirements.txt       # ML dependencies (torch, timm, etc.)
-└── notebooks/            # Experimental analysis (optional)
+├── Dockerfile             # Model service production image
+└── requirements.txt       # ML dependencies (torch, timm, etc.)
 
-frontend/                   # React/Vue frontend (optional)
+frontend/                   # React frontend (optional)
 ├── README.md
+├── Dockerfile
+├── nginx.frontend.conf
+├── package.json
+└── src/
 
-infra/                      # Docker & deployment
-├── backend.Dockerfile
+shared/                     # Shared settings
+└── config.py
 
-scripts/                    # Helper scripts
-├── run-backend.sh
-└── run-backend.ps1
-
-configs/                    # Configuration files
-└── config.prod.yaml
-
-docs/
-├── MIGRATION.md           # Migration checklist
-
-# Root files
-app.py                      # Shim: imports backend/app/main.py
-requirements.txt           # Convenience (all deps)
-packages.txt              # System dependencies
+docker-compose.yml          # Two-service production layout
+.dockerignore
 .gitignore
 README.md
 ```
 
 ## 🚀 Quick Start
 
-### Run Inference (Using Pre-Trained Model)
+### Run Production Services
 
 ```bash
-# Install dependencies
-pip install -r backend/requirements.txt
-
-# Run the Streamlit UI
-streamlit run app.py
+docker compose up --build
 ```
 
-Visit `http://localhost:8501` and upload an image to analyze.
+The backend API will be available at `http://localhost:8000` and will forward inference calls to the model container on the internal Compose network.
 
-**Note**: The `.pth` model auto-downloads from Google Drive on first run (configured in `backend/app/main.py`).
+### Run the backend and model separately
+
+If you want to manage the images yourself instead of using Compose:
+
+```bash
+docker build -t breaking-fake-api -f backend/Dockerfile .
+docker build -t breaking-fake-model -f model/Dockerfile .
+```
 
 ### Train Your Own Model
 
@@ -113,17 +112,29 @@ The best model is saved to `model/artifacts/breaking_fake_vit.pth` and automatic
 
 ## 🐳 Docker Deployment
 
-### Build
+### Production layout
+
+The production setup runs two containers:
+
+1. `breaking-fake-api` for the FastAPI backend
+2. `breaking-fake-model` for the inference service
+
+The backend talks to the model service through `MODEL_SERVICE_URL=http://model:8001` inside the Compose network.
+
+### Build and run
+
 ```bash
-docker build -t breakingfake-backend:latest -f infra/backend.Dockerfile .
+docker compose up --build
 ```
 
-### Run
-```bash
-docker run -p 8501:8501 breakingfake-backend:latest
-```
+The API will be available at `http://localhost:8000`.
 
-Visit `http://localhost:8501`.
+If you want to run the services separately:
+
+```bash
+docker build -t breaking-fake-api -f backend/Dockerfile .
+docker build -t breaking-fake-model -f model/Dockerfile .
+```
 
 ## 📊 Training Dataset
 

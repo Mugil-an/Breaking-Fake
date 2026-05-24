@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     
     # Paths
     # Path to project root (this file lives in the project root)
-    PROJECT_ROOT: Path = Path(__file__).parent
+    PROJECT_ROOT: Path = Path(__file__).parent.parent
     MODEL_DIR: Path = PROJECT_ROOT / "model"
     ARTIFACTS_DIR: Path = MODEL_DIR / "artifacts"
     DATA_DIR: Path = MODEL_DIR / "data"

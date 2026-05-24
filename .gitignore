@@ -19,6 +19,8 @@ ENV/
 env.bak/
 venv.bak/
 .env
+.venv-backend/
+.venv-model/
 
 # Model Files
 *.pth
@@ -43,4 +45,4 @@ node_modules/
 
 logs
 
-model\data
+model/data
